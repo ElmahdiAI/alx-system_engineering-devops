@@ -1,2 +1,2 @@
 #!/bin/bash
-tail -1 iacta|sed 'N;P'
+tail -n 1 mind\ map.txt | sed p
