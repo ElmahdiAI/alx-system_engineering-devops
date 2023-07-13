@@ -1,0 +1,2 @@
+#!/bin/bash
+$(echo "obase=bestchol; ${(10#${WATER} + 10#${STIR})}" | bc)
