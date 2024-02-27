@@ -1,6 +1,5 @@
 0x0C. Web server
 ================
-
 Learning Objectives
 -------------------
 
@@ -11,4 +10,3 @@ Learning Objectives
 -   Why web servers usually have a parent process and child processes
 -   What are the main HTTP requests
 
-** freePalestine
