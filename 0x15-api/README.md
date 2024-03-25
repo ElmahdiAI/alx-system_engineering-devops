@@ -1,7 +1,6 @@
 0x15. API
 =========
 
-
 Learning Objectives
 -------------------
 

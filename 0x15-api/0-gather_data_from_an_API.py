@@ -1,14 +1,32 @@
 #!/usr/bin/python3
-"""Returns to-do list information for a given employee ID."""
+"""
+Uses the JSON placeholder API to query data about an employee.
+"""
+
 import requests
 import sys
 
-if __name__ == "__main__":
-    url = "https://jsonplaceholder.typicode.com/"
-    user = requests.get(url + "users/{}".format(sys.argv[1])).json()
-    todos = requests.get(url + "todos", params={"userId": sys.argv[1]}).json()
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: {} <employee_id>".format(sys.argv[0]))
+        sys.exit(1)
 
-    completed = [t.get("title") for t in todos if t.get("completed") is True]
-    print("Employee {} is done with tasks({}/{}):".format(
-        user.get("name"), len(completed), len(todos)))
-    [print("\t {}".format(c)) for c in completed]
+    employee_id = sys.argv[1]
+    main_url = 'https://jsonplaceholder.typicode.com'
+    todo_url = f"{main_url}/user/{employee_id}/todos"
+    name_url = f"{main_url}/users/{employee_id}"
+
+    try:
+        todo_result = requests.get(todo_url).json()
+        name_result = requests.get(name_url).json()
+    except requests.RequestException as e:
+        print("Error fetching data:", e)
+        sys.exit(1)
+
+    todo_num = len(todo_result)
+    todo_complete = sum(1 for todo in todo_result if todo.get("completed"))
+    name = name_result.get("name")
+    print(f"Employee {name} has completed {todo_complete}/{todo_num} tasks:")
+    for todo in todo_result:
+        if todo.get("completed"):
+            print("\t", todo.get("title"))
