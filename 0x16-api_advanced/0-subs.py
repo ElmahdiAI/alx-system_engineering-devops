@@ -1,5 +1,5 @@
+#!/usr/bin/python3
 import requests
-
 
 def number_of_subscribers(subreddit):
     """
@@ -8,13 +8,16 @@ def number_of_subscribers(subreddit):
     """
     url = f"https://www.reddit.com/r/{subreddit}/about.json"
     headers = {
-        'User-Agent': 'My Reddit API Client'
+        'User-Agent': 'MyRedditAPIClient/1.0 (by u/yourusername)'
     }
 
-    response = requests.get(url, headers=headers, allow_redirects=False)
-
-    if response.status_code != 200:
+    try:
+        response = requests.get(url, headers=headers, allow_redirects=False)
+        if response.status_code != 200:
+            return 0
+        
+        data = response.json()
+        return data.get('data', {}).get('subscribers', 0)
+    
+    except requests.RequestException:
         return 0
-
-    data = response.json()
-    return data['data']['subscribers'] if 'data' in data else 0
